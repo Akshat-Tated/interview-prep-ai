@@ -10,6 +10,9 @@ import {
   LuZap
 } from "react-icons/lu"
 import { APP_FEATURE } from "../utils/data"
+import Modal from "../components/Modal"
+import Login from "./auth/Login"
+import SignUp from "./auth/SignUp"
 
 const LandingPage = () => {
   const navigate = useNavigate()
@@ -232,9 +235,58 @@ const LandingPage = () => {
             </div>
           </div>
         </div>
+        {/* Footer */}
+        <div className="container mx-auto px-4 pt-20 pb-12">
+          <div className="text-center">
+            <div className="inline-flex items-center gap-3 bg-linear-to-r from-amber-50/80 to-yellow-50/80 px-8 py-4 rounded-2xl border border-amber-100/80 shadow-md mb-8">
+              <div className="w-12 h-12 bg-linear-to-br from-amber-400 to-amber-600 rounded-full flex items-center justify-center animate-pulse">
+                <LuSparkles className="w-6 h-6 text-white" />
+              </div>
+
+              <div className="text-left">
+                <p className="font-bold text-gray-900">
+                  Ready to transform your interview skills?
+                </p>
+
+                <p className="text-sm text-gray-600">
+                  Join thousands of successful candidates
+                </p>
+              </div>
+
+              <button className="ml-4 bg-linear-to-r from-amber-600 to-amber-800 text-white font-semibold px-6 py-3 rounded-full hover:shadow-lg hover:shadow-amber-200 transition-all">
+                Start Free Trial
+              </button>
+            </div>
+
+            <div className="text-gray-500 text-sm mt-12 pt-8 border-t border-gray-200/50">
+              <p className="flex items-center justify-center gap-2">
+                Made with <span className="text-red-500 animate-pulse">❤️</span>
+                <span className="w-1 h-1 bg-gray-500 rounded-full"></span>
+                Happy Coding
+                <span className="w-1 h-1 bg-gray-500 rounded-full"></span>
+                Empower your journey
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
 
-      
+      <Modal
+        isOpen={openAuthModal}
+        onClose={() => {
+          setOpenAuthModal(false)
+          setCurrentPage("login")
+        }}
+        hideHeader
+      >
+        <div>
+          {currentPage === "login" && <Login setCurrentPage={setCurrentPage} />}
+
+          {currentPage === "signup" && (
+            <SignUp setCurrentPage={setCurrentPage} />
+          )}
+        </div>
+      </Modal>
       
     </>
   )
