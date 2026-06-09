@@ -36,7 +36,25 @@ const SignUp = () => {
 
     // SignUp API Call
     try {
-    
+      if (profilePic) {
+        const imageUploadRes = await uploadImage(profilePic)
+        profileImageUrl = imageUploadRes.imageUrl || ""
+      }
+
+      const response = await axiosInstance.post(API_PATHS.AUTH.REGISTER, {
+        name: fullName,
+        email,
+        password,
+        profileImageUrl,
+      })
+
+      const { token } = response.data
+
+      if (token) {
+        localStorage.setItem("token", token)
+        updateUser(response.data)
+        navigate("/dashboard")
+      }
     } catch (error) {
       if (error.response && error.response.data.message) {
         setError(error.response.data.message)
