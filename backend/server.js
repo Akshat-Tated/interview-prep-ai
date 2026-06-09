@@ -5,6 +5,7 @@ const path = require("path")
 const connectDB = require("./config/db")
 const authRoutes = require("./routes/auth.route")
 const sessionRoutes = require("./routes/session.route")
+const questionRoutes = require("./routes/question.route")
 
 
 
@@ -26,6 +27,7 @@ app.use(express.json())
 // routes
 app.use("/api/auth", authRoutes)
 app.use("/api/sessions", sessionRoutes)
+app.use("/api/questions", questionRoutes)
 
 // Server uploads folder
 app.use("/uploads", express.static(path.join(__dirname, "uploads"), {}))
