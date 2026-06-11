@@ -3,11 +3,13 @@ import { BrowserRouter, Route, Routes } from "react-router-dom"
 import LandingPage from "./pages/LandingPage"
 import Dashboard from "./pages/home/Dashboard"
 import InterviewPrep from "./pages/interviewPreparation/InterviewPrep"
+import UserProvider from "./context/UserContext"
 
 import { Toaster } from "react-hot-toast"
 
 const App = () => {
   return (
+     <UserProvider>
       <div>
         <BrowserRouter>
           <Routes>
@@ -29,6 +31,7 @@ const App = () => {
           }}
         />
       </div>
+     </UserProvider>
   )
 }
 

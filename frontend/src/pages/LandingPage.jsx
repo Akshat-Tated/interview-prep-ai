@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom"
 import {
   LuBrain,
@@ -13,14 +13,24 @@ import { APP_FEATURE } from "../utils/data"
 import Modal from "../components/Modal"
 import Login from "./auth/Login"
 import SignUp from "./auth/SignUp"
+import { UserContext } from "../context/UserContext"
+import ProfileInfoCard from "../components/cards/ProfileInfoCard"
+
 
 const LandingPage = () => {
+  const { user } = useContext(UserContext)
   const navigate = useNavigate()
 
   const [openAuthModal, setOpenAuthModal] = useState(false)
   const [currentPage, setCurrentPage] = useState("login")
 
-  const handleCTA = () => {}
+  const handleCTA = () => {
+    if (!user) {
+      setOpenAuthModal(true)
+    } else {
+      navigate("/dashboard")
+    }
+  }
 
   const featureIcons = [LuZap, LuTarget, LuBrain, LuTrendingUp, LuUsers]
   return (
