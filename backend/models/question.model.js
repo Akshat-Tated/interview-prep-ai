@@ -23,6 +23,22 @@ const questionSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+
+    difficulty: {
+      type: String,
+      enum: ["Easy", "Medium", "Hard"],
+      default: null,
+    },
+
+    topic: {
+      type: String,
+      default: null,
+    },
+
+    followUp: {
+      type: [String],
+      default: [],
+    },
   },
   { timestamps: true },
 )

@@ -21,6 +21,9 @@ const createSession = async (req, res) => {
           session: session._id,
           question: q.question,
           answer: q.answer,
+          difficulty: q.difficulty || null,
+          topic: q.topic || null,
+          followUp: q.followUp || [],
         })
 
         return question._id

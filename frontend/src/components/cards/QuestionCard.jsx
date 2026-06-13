@@ -5,6 +5,9 @@ import AIResponsePreview from "../AIResponsePreview"
 const QuestionCard = ({
   question,
   answer,
+  difficulty,
+  topic,
+  followUp,
   onLearnMore,
   isPinned,
   onTogglePin,
@@ -45,6 +48,29 @@ const QuestionCard = ({
               {question}
             </h3>
           </div>
+
+          {(difficulty || topic) && (
+            <div className="flex items-center gap-2 mt-3 pl-14 flex-wrap">
+              {difficulty && (
+                <span
+                  className={`px-2.5 py-1 rounded-full text-xs font-semibold border ${
+                    {
+                      Easy: "bg-emerald-100 text-emerald-700 border-emerald-200",
+                      Medium: "bg-amber-100 text-amber-700 border-amber-200",
+                      Hard: "bg-red-100 text-red-700 border-red-200",
+                    }[difficulty] || "bg-gray-100 text-gray-600 border-gray-200"
+                  }`}
+                >
+                  {difficulty}
+                </span>
+              )}
+              {topic && (
+                <span className="px-2.5 py-1 rounded-full text-xs font-medium bg-indigo-50 text-indigo-600 border border-indigo-200">
+                  {topic}
+                </span>
+              )}
+            </div>
+          )}
 
           <div className="flex items-center justify-between mt-6 pl-14">
             <div
@@ -93,6 +119,26 @@ const QuestionCard = ({
         >
           <div className="p-6 pt-2 border-t border-gray-100" ref={contentRef}>
             <AIResponsePreview content={answer} />
+
+            {followUp?.length > 0 && (
+              <div className="mt-5 pt-4 border-t border-gray-100">
+                <h4 className="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
+                  <LuSparkles className="w-3.5 h-3.5 text-indigo-500" />
+                  Follow-Up Questions
+                  <span className="text-xs font-normal text-gray-400">({followUp.length})</span>
+                </h4>
+                <div className="space-y-2">
+                  {followUp.map((q, idx) => (
+                    <div key={idx} className="flex items-start gap-2.5 p-2.5 rounded-lg hover:bg-gray-50 transition-colors">
+                      <span className="flex-shrink-0 w-5 h-5 rounded-full bg-indigo-100 text-indigo-600 text-xs font-semibold flex items-center justify-center mt-0.5">
+                        {idx + 1}
+                      </span>
+                      <p className="text-sm text-gray-700 leading-relaxed">{q}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

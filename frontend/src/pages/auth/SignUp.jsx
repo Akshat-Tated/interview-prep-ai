@@ -8,7 +8,7 @@ import uploadImage from "../../utils/uploadImage"
 import axiosInstance from "../../utils/axiosInstance"
 import { API_PATHS } from "../../utils/apiPaths"
 
-const SignUp = () => {
+const SignUp = ({ setCurrentPage }) => {
   const [profilePic, setProfilePic] = useState(null)
   const [fullName, setFullName] = useState("")
   const [email, setEmail] = useState("")

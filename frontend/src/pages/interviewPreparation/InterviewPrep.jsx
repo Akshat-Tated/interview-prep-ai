@@ -174,6 +174,9 @@ const InterviewPrep = () => {
                         <QuestionCard
                           question={data?.question}
                           answer={data?.answer}
+                          difficulty={data?.difficulty}
+                          topic={data?.topic}
+                          followUp={data?.followUp}
                           onLearnMore={() =>
                             generateConceptExplanation(data.question)
                           }

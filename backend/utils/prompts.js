@@ -63,8 +63,11 @@ OUTPUT FORMAT (JSON)
 ===========================================
 [
 {
-"question" : "Full Question text here?",
-"answer": "Detailed, step-by-step answer here."
+"question": "Full question text here?",
+"answer": "Detailed, step-by-step answer here.",
+"difficulty": "Easy | Medium | Hard",
+"topic": "The specific topic from the provided topics list",
+"followUp": ["Follow-up question 1?", "Follow-up question 2?"]
 }
 ]
 
@@ -85,6 +88,8 @@ Generate ${numberOfQuestions} high-quality technical interview questions followi
 Important: 
 -Only return valid JSON
 -Do NOT add any extra text outside the JSON array
+-The "difficulty" field must be exactly one of: "Easy", "Medium", or "Hard"
+-The "followUp" field must contain 2-3 follow-up questions as an array of strings
 ===========================================
 `
 }
