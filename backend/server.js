@@ -1,7 +1,7 @@
 require("dotenv").config()
 const express = require("express")
 const cors = require("cors")
-const path = require("path")
+
 const connectDB = require("./config/db")
 const authRoutes = require("./routes/auth.route")
 const sessionRoutes = require("./routes/session.route")
@@ -34,8 +34,7 @@ app.post("/api/ai/generate-questions",protect, generateInterviewQuestions)
 app.post("/api/ai/generate-explanation",protect, generateConceptExplanation)
 app.post("/api/ai/evaluate-answer",protect, evaluateAnswer)
 
-// Server uploads folder
-app.use("/uploads", express.static(path.join(__dirname, "uploads"), {}))
+
 
 const PORT = process.env.PORT || 5000
 
