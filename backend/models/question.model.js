@@ -39,6 +39,15 @@ const questionSchema = new mongoose.Schema(
       type: [String],
       default: [],
     },
+
+    evaluation: {
+      userAnswer: { type: String },
+      score: { type: Number, min: 0, max: 10 },
+      strengths: { type: [String], default: [] },
+      weaknesses: { type: [String], default: [] },
+      idealAnswer: { type: String },
+      evaluatedAt: { type: Date },
+    },
   },
   { timestamps: true },
 )

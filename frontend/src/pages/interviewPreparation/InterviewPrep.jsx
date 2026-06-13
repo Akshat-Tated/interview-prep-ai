@@ -25,6 +25,7 @@ const InterviewPrep = () => {
 
   const [isLoading, setIsLoading] = useState(false)
   const [isUpdateLoader, setIsUpdateLoader] = useState(false)
+  const [evaluatingQuestionId, setEvaluatingQuestionId] = useState(null)
 
   const fetchSessionDetailsById = async () => {
     try {
@@ -79,6 +80,30 @@ const InterviewPrep = () => {
       }
     } catch (error) {
       console.log("error: ", error)
+    }
+  }
+
+  const evaluateAnswer = async (questionId, userAnswer) => {
+    try {
+      setEvaluatingQuestionId(questionId)
+
+      const response = await axiosInstance.post(
+        API_PATHS.AI.EVALUATE_ANSWER,
+        { questionId, userAnswer },
+      )
+
+      if (response.data && response.data.success) {
+        toast.success("Answer evaluated!")
+        return response.data.evaluation
+      }
+    } catch (error) {
+      console.log("Error: ", error)
+      toast.error(
+        error.response?.data?.message || "Failed to evaluate answer",
+      )
+      return null
+    } finally {
+      setEvaluatingQuestionId(null)
     }
   }
 
@@ -182,6 +207,11 @@ const InterviewPrep = () => {
                           }
                           isPinned={data?.isPinned}
                           onTogglePin={() => toggleQuestionPinStatus(data._id)}
+                          evaluation={data?.evaluation}
+                          onEvaluate={(userAnswer) =>
+                            evaluateAnswer(data._id, userAnswer)
+                          }
+                          isEvaluating={evaluatingQuestionId === data._id}
                         />
 
                         {!isLoading &&

@@ -6,7 +6,7 @@ const connectDB = require("./config/db")
 const authRoutes = require("./routes/auth.route")
 const sessionRoutes = require("./routes/session.route")
 const questionRoutes = require("./routes/question.route")
-const { generateInterviewQuestions, generateConceptExplanation } = require("./controllers/ai.controller")
+const { generateInterviewQuestions, generateConceptExplanation, evaluateAnswer } = require("./controllers/ai.controller")
 const { protect } = require("./middlewares/auth.middleware")
 
 
@@ -32,6 +32,7 @@ app.use("/api/sessions", sessionRoutes)
 app.use("/api/questions", questionRoutes)
 app.post("/api/ai/generate-questions",protect, generateInterviewQuestions)
 app.post("/api/ai/generate-explanation",protect, generateConceptExplanation)
+app.post("/api/ai/evaluate-answer",protect, evaluateAnswer)
 
 // Server uploads folder
 app.use("/uploads", express.static(path.join(__dirname, "uploads"), {}))

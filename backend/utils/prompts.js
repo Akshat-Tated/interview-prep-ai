@@ -157,4 +157,66 @@ Example Output:
 Generate ONLY the JSON array now. Do not include any text outside the JSON structure:`
 }
 
-module.exports = { generateQuestionAnswerPrompt, conceptExplainPrompt }
+
+const evaluateAnswerPrompt = (question, referenceAnswer, userAnswer) => {
+  return `
+=============================================
+INTERVIEW ANSWER EVALUATOR
+=============================================
+
+QUESTION: ${question}
+
+REFERENCE ANSWER (for comparison):
+${referenceAnswer}
+
+CANDIDATE'S ANSWER (to evaluate):
+${userAnswer}
+
+=============================================
+TASK
+=============================================
+You are a senior technical interviewer. Evaluate the candidate's
+answer by comparing it against the reference answer.
+
+Assess on these dimensions:
+- Technical accuracy
+- Completeness (did they cover all key points?)
+- Clarity and communication
+- Use of examples or code
+- Depth of understanding
+
+=============================================
+SCORING RUBRIC
+=============================================
+10:  Exceptional — exceeds the reference answer in depth or insight
+8-9: Strong — covers all key points with good depth and clarity
+6-7: Adequate — covers most key points but has minor gaps
+4-5: Below Average — significant gaps, inaccuracies, or lacks depth
+2-3: Poor — largely incorrect, incomplete, or off-topic
+0-1: No meaningful answer or completely wrong
+
+=============================================
+OUTPUT FORMAT (JSON)
+=============================================
+{
+  "score": <integer 0-10>,
+  "strengths": ["strength 1", "strength 2"],
+  "weaknesses": ["weakness 1", "weakness 2"],
+  "idealAnswer": "A comprehensive model answer with markdown formatting..."
+}
+
+=============================================
+RULES
+=============================================
+- Return ONLY valid JSON, no extra text outside the JSON object
+- "score" must be an integer between 0 and 10
+- "strengths" must have 1 to 5 items
+- "weaknesses" must have 1 to 5 items
+- "idealAnswer" must be detailed, use markdown formatting (bold, lists, code blocks)
+- Be constructive in weaknesses — explain what was missing and why it matters
+- If the candidate's answer is better than the reference, acknowledge it
+=============================================
+`
+}
+
+module.exports = { generateQuestionAnswerPrompt, conceptExplainPrompt, evaluateAnswerPrompt }

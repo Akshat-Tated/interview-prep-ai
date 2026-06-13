@@ -97,7 +97,10 @@ const LandingPage = () => {
                 your next interview with structured, AI-guided preparation.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
-                <button className="group bg-linear-to-r from-gray-900 to-black text-base font-semibold text-white px-10 py-4 rounded-xl hover:shadow-2xl hover:shadow-gray-900/30 transition-all duration-300 cursor-pointer hover:scale-[1.02] relative overflow-hidden">
+                <button
+                  onClick={handleCTA}
+                  className="group bg-linear-to-r from-gray-900 to-black text-base font-semibold text-white px-10 py-4 rounded-xl hover:shadow-2xl hover:shadow-gray-900/30 transition-all duration-300 cursor-pointer hover:scale-[1.02] relative overflow-hidden"
+                >
                   <span className="relative z-10 flex items-center gap-3">
                     Start Free Trial
                     <LuChevronRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
@@ -199,7 +202,10 @@ const LandingPage = () => {
                     </p>
 
                     <div className="mt-6 pt-6 border-t border-amber-100/50">
-                      <button className="flex items-center gap-2 text-amber-600 font-semibold group-hover:text-amber-700 transition-colors">
+                      <button
+                        onClick={handleCTA}
+                        className="flex items-center gap-2 text-amber-600 font-semibold group-hover:text-amber-700 transition-colors cursor-pointer"
+                      >
                         Learn More{" "}
                         <LuChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />{" "}
                       </button>
@@ -234,7 +240,10 @@ const LandingPage = () => {
                     <p className="text-gray-600">{feature.description}</p>
 
                     <div className="mt-6 pt-6 border-t border-amber-100/50">
-                      <button className="flex items-center gap-2 text-amber-600 font-semibold group-hover:text-amber-700 transition-colors">
+                      <button
+                        onClick={handleCTA}
+                        className="flex items-center gap-2 text-amber-600 font-semibold group-hover:text-amber-700 transition-colors cursor-pointer"
+                      >
                         Learn More{" "}
                         <LuChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />{" "}
                       </button>
@@ -263,7 +272,10 @@ const LandingPage = () => {
                 </p>
               </div>
 
-              <button className="ml-4 bg-linear-to-r from-amber-600 to-amber-800 text-white font-semibold px-6 py-3 rounded-full hover:shadow-lg hover:shadow-amber-200 transition-all">
+              <button
+                onClick={handleCTA}
+                className="ml-4 bg-linear-to-r from-amber-600 to-amber-800 text-white font-semibold px-6 py-3 rounded-full hover:shadow-lg hover:shadow-amber-200 transition-all cursor-pointer"
+              >
                 Start Free Trial
               </button>
             </div>

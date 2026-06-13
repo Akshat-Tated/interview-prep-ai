@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react"
-import { LuChevronDown, LuPin, LuPinOff, LuSparkles } from "react-icons/lu"
+import { LuChevronDown, LuPin, LuPinOff, LuSparkles, LuPenLine, LuSend, LuRotateCw, LuFileText } from "react-icons/lu"
+import { FaSpinner } from "react-icons/fa"
 import AIResponsePreview from "../AIResponsePreview"
+import EvaluationResultCard from "./EvaluationResultCard"
 
 const QuestionCard = ({
   question,
@@ -11,24 +13,65 @@ const QuestionCard = ({
   onLearnMore,
   isPinned,
   onTogglePin,
+  evaluation,
+  onEvaluate,
+  isEvaluating,
 }) => {
+  const isValidEvaluation = evaluation && typeof evaluation.score === "number"
+  const [activeTab, setActiveTab] = useState(isValidEvaluation ? "practice" : null)
   const [isExpanded, setIsExpanded] = useState(false)
   const [height, setHeight] = useState(0)
+  const [showEvalForm, setShowEvalForm] = useState(false)
+  const [userAnswer, setUserAnswer] = useState("")
+  const [evalResult, setEvalResult] = useState(isValidEvaluation ? evaluation : null)
 
   const contentRef = useRef(null)
 
+  // Sync evalResult when evaluation prop changes (e.g. after page refresh)
+  useEffect(() => {
+    const isValid = evaluation && typeof evaluation.score === "number"
+    setEvalResult(isValid ? evaluation : null)
+    if (isValid) {
+      setActiveTab("practice")
+    }
+  }, [evaluation])
+
   useEffect(() => {
     if (isExpanded) {
-      const contentHeight = contentRef.current.scrollHeight
-      setHeight(contentHeight + 10)
+      // Small delay to allow DOM to update before measuring
+      const timer = setTimeout(() => {
+        const contentHeight = contentRef.current?.scrollHeight || 0
+        setHeight(contentHeight + 20)
+      }, 50)
+      return () => clearTimeout(timer)
     } else {
       setHeight(0)
     }
-  }, [isExpanded])
+  }, [isExpanded, showEvalForm, evalResult, isEvaluating, activeTab])
 
   const toggleExpand = () => {
     setIsExpanded(!isExpanded)
   }
+
+  const handleEvaluate = async () => {
+    if (!userAnswer.trim()) return
+
+    const result = await onEvaluate(userAnswer)
+
+    if (result) {
+      setEvalResult(result)
+      setShowEvalForm(false)
+      setUserAnswer("")
+    }
+  }
+
+  const handleReEvaluate = () => {
+    setShowEvalForm(true)
+    setUserAnswer(evalResult?.userAnswer || "")
+    setEvalResult(null)
+  }
+
+  const MAX_CHARS = 5000
 
   return (
     <>
@@ -98,6 +141,43 @@ const QuestionCard = ({
                 <LuSparkles className="w-4 h-4" />
                 <span>Learn More</span>
               </button>
+
+              <button
+                className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 border shadow-sm hover:shadow active:scale-95 ${
+                  activeTab === "study"
+                    ? "bg-indigo-600 border-indigo-600 text-white hover:bg-indigo-700"
+                    : "bg-indigo-50/50 border-indigo-200 text-indigo-700 hover:bg-indigo-100 hover:border-indigo-300"
+                }`}
+                onClick={() => {
+                  setIsExpanded(true)
+                  setActiveTab(activeTab === "study" ? null : "study")
+                }}
+              >
+                <LuFileText className="w-4 h-4" />
+                <span>Show Ideal Answer</span>
+              </button>
+
+              <button
+                className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 border shadow-sm hover:shadow active:scale-95 ${
+                  activeTab === "practice"
+                    ? "bg-emerald-600 border-emerald-600 text-white hover:bg-emerald-700"
+                    : "bg-emerald-50/50 border-emerald-200 text-emerald-700 hover:bg-emerald-100 hover:border-indigo-300"
+                }`}
+                onClick={() => {
+                  setIsExpanded(true)
+                  if (activeTab === "practice") {
+                    setActiveTab(null)
+                  } else {
+                    setActiveTab("practice")
+                    if (!evalResult) {
+                      setShowEvalForm(true)
+                    }
+                  }
+                }}
+              >
+                <LuPenLine className="w-4 h-4" />
+                <span>Evaluate My Answer</span>
+              </button>
             </div>
 
             <button
@@ -117,29 +197,100 @@ const QuestionCard = ({
           className="overflow-hidden transition-all duration-500 ease-in-out bg-linear-to-br from-gray-50 to-white"
           style={{ maxHeight: `${height}px` }}
         >
-          <div className="p-6 pt-2 border-t border-gray-100" ref={contentRef}>
-            <AIResponsePreview content={answer} />
+              <div className="p-6 pt-2 border-t border-gray-100" ref={contentRef}>
+                {activeTab === null && (
+                  <p className="text-center text-sm text-gray-500 py-6">
+                    Click <strong className="text-indigo-600 font-semibold">Show Ideal Answer</strong> to study, or <strong className="text-emerald-600 font-semibold">Evaluate My Answer</strong> to practice.
+                  </p>
+                )}
 
-            {followUp?.length > 0 && (
-              <div className="mt-5 pt-4 border-t border-gray-100">
-                <h4 className="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
-                  <LuSparkles className="w-3.5 h-3.5 text-indigo-500" />
-                  Follow-Up Questions
-                  <span className="text-xs font-normal text-gray-400">({followUp.length})</span>
-                </h4>
-                <div className="space-y-2">
-                  {followUp.map((q, idx) => (
-                    <div key={idx} className="flex items-start gap-2.5 p-2.5 rounded-lg hover:bg-gray-50 transition-colors">
-                      <span className="flex-shrink-0 w-5 h-5 rounded-full bg-indigo-100 text-indigo-600 text-xs font-semibold flex items-center justify-center mt-0.5">
-                        {idx + 1}
-                      </span>
-                      <p className="text-sm text-gray-700 leading-relaxed">{q}</p>
+                {/* Reference/Ideal Answer (Study Mode) */}
+                {activeTab === "study" && (
+                  <div className="max-h-[380px] overflow-y-auto pr-2 custom-scrollbar bg-indigo-50/20 p-4 rounded-xl border border-indigo-100">
+                    <AIResponsePreview content={answer} />
+                  </div>
+                )}
+
+                {followUp?.length > 0 && activeTab === "study" && (
+                  <div className="mt-5 pt-4 border-t border-gray-100">
+                    <h4 className="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
+                      <LuSparkles className="w-3.5 h-3.5 text-indigo-500" />
+                      Follow-Up Questions
+                      <span className="text-xs font-normal text-gray-400">({followUp.length})</span>
+                    </h4>
+                    <div className="space-y-2">
+                      {followUp.map((q, idx) => (
+                        <div key={idx} className="flex items-start gap-2.5 p-2.5 rounded-lg hover:bg-gray-50 transition-colors">
+                          <span className="flex-shrink-0 w-5 h-5 rounded-full bg-indigo-100 text-indigo-600 text-xs font-semibold flex items-center justify-center mt-0.5">
+                            {idx + 1}
+                          </span>
+                          <p className="text-sm text-gray-700 leading-relaxed">{q}</p>
+                        </div>
+                      ))}
                     </div>
-                  ))}
-                </div>
+                  </div>
+                )}
+
+                {/* Evaluation Form (Practice Mode) */}
+                {activeTab === "practice" && showEvalForm && (
+                  <div className="mt-5 pt-5 border-t border-gray-200">
+                    <h4 className="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
+                      <LuPenLine className="w-3.5 h-3.5 text-emerald-600" />
+                      Your Answer
+                    </h4>
+
+                    <textarea
+                      className="w-full p-4 border border-gray-200 rounded-xl text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-300 resize-none transition-all duration-200"
+                      rows={6}
+                      placeholder="Type your answer here..."
+                      value={userAnswer}
+                      onChange={(e) => setUserAnswer(e.target.value.slice(0, MAX_CHARS))}
+                      disabled={isEvaluating}
+                    />
+
+                    <div className="flex items-center justify-between mt-2">
+                      <span className="text-xs text-gray-400">
+                        {userAnswer.length} / {MAX_CHARS}
+                      </span>
+
+                      <button
+                        className="inline-flex items-center gap-2 px-5 py-2.5 bg-linear-to-r from-indigo-500 via-purple-50 to-pink-50 hover:from-indigo-600 hover:via-purple-600 hover:to-pink-600 text-white rounded-xl text-sm font-medium transition-all duration-200 shadow-md hover:shadow-lg active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                        onClick={handleEvaluate}
+                        disabled={isEvaluating || !userAnswer.trim()}
+                      >
+                        {isEvaluating ? (
+                          <>
+                            <FaSpinner className="w-4 h-4 animate-spin" />
+                            <span>Evaluating...</span>
+                          </>
+                        ) : (
+                          <>
+                            <LuSend className="w-4 h-4" />
+                            <span>Evaluate</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                {/* Evaluation Result (Practice Mode) */}
+                {activeTab === "practice" && evalResult && !showEvalForm && (
+                  <>
+                     <EvaluationResultCard evaluation={evalResult} />
+
+                     <div className="flex justify-center mt-4">
+                       <button
+                         className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-indigo-600 hover:text-indigo-800 hover:bg-indigo-50 rounded-xl transition-all duration-200 active:scale-95"
+                         onClick={handleReEvaluate}
+                       >
+                         <LuRotateCw className="w-4 h-4" />
+                         Re-evaluate
+                       </button>
+                     </div>
+                  </>
+                )}
               </div>
-            )}
-          </div>
         </div>
       </div>
     </>
