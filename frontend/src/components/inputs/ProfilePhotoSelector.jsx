@@ -37,6 +37,7 @@ const ProfilePhotoSelector = ({ image, setImage, preview, setPreview }) => {
   return (
     <div className="flex justify-center">
       <input
+        id="profile-pic-input"
         type="file"
         accept="image/*"
         ref={inputRef}
@@ -45,17 +46,18 @@ const ProfilePhotoSelector = ({ image, setImage, preview, setPreview }) => {
       />
 
       {!image ? (
-        <div className="relative">
-          <LuUser className="w-32 h-32 text-gray-400 border-2 border-dashed border-gray-300 rounded-full p-6" />
+        <label
+          htmlFor="profile-pic-input"
+          className="relative cursor-pointer block group"
+        >
+          <LuUser className="w-32 h-32 text-gray-400 border-2 border-dashed border-gray-300 rounded-full p-6 group-hover:border-blue-500 transition duration-200" />
 
-          <button
-            type="button"
-            className="absolute bottom-0 right-0 bg-blue-600 text-white p-2 rounded-full hover:bg-blue-700"
-            onClick={onChooseFile}
+          <div
+            className="absolute bottom-0 right-0 bg-blue-600 text-white p-2.5 rounded-full hover:bg-blue-700 pointer-events-none shadow-md"
           >
             <LuUpload size={20} />
-          </button>
-        </div>
+          </div>
+        </label>
       ) : (
         <div className="relative">
           <img
@@ -66,7 +68,7 @@ const ProfilePhotoSelector = ({ image, setImage, preview, setPreview }) => {
 
           <button
             type="button"
-            className="absolute bottom-0 right-0 bg-red-600 text-white p-2 rounded-full hover:bg-red-700"
+            className="absolute bottom-0 right-0 bg-red-600 text-white p-2.5 rounded-full hover:bg-red-700 shadow-md"
             onClick={handleRemoveImage}
           >
             <LuTrash size={20} />

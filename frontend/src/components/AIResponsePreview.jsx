@@ -134,7 +134,7 @@ const AIResponsePreview = ({ content }) => {
 
             td({ children }) {
               return (
-                <td className="px-3 py-2 whitespace-nowrap text-sm">
+                <td className="px-3 py-2 whitespace-normal break-words text-sm">
                   {children}
                 </td>
               )
@@ -205,6 +205,7 @@ function CodeBlock({ code, language }) {
           margin: 0,
           padding: "1rem",
           background: "transparent",
+          overflowX: "auto",
         }}
       >
         {code}

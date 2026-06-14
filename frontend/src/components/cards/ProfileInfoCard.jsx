@@ -18,16 +18,16 @@ const ProfileInfoCard = () => {
         <img
           src={user.profileImageUrl}
           alt="Profile pic"
-          className="w-12 h-12 bg-gray-300 rounded-full mr3"
+          className="w-10 h-10 sm:w-12 sm:h-12 bg-gray-300 rounded-full mr-2 sm:mr-3"
         />
 
-        <div className="ml-2">
-          <div className="text-xl text-black font-bold leading-3">
+        <div className="ml-1 sm:ml-2">
+          <div className="text-sm sm:text-base text-black font-bold truncate max-w-[80px] sm:max-w-[150px]">
             {user.name || ""}
           </div>
 
           <button
-            className="text-amber-600 text-lg font-semibold cursor-pointer hover:underline"
+            className="text-amber-600 text-xs sm:text-sm font-semibold cursor-pointer hover:underline block"
             onClick={handleLogout}
           >
             Logout

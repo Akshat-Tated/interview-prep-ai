@@ -7,8 +7,10 @@ const Navbar = () => {
     <div className="bg-white shadow-md">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
         <Link to={"/dashboard"}>
-          <h2 className="text-xl font-bold text-blue-600 hover:text-blue-800 transition-colors">
-            Interview Preparation AI
+          <h2 className="text-lg sm:text-xl font-bold text-blue-600 hover:text-blue-800 transition-colors">
+            <span className="hidden sm:inline">Interview Preparation </span>
+            <span className="sm:hidden">Prep </span>
+            AI
           </h2>
         </Link>
 

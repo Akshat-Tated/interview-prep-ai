@@ -45,13 +45,13 @@ const LandingPage = () => {
         </div>
         <div className="container mx-auto px-4 pt-8 pb-48 relative z-10">
           {/* Header */}
-          <header className="flex justify-between items-center mb-20">
+          <header className="flex flex-col sm:flex-row gap-4 justify-between items-center mb-20 text-center sm:text-left">
             <div className="flex items-center gap-2">
-              <div className="w-10 h-10 bg-linear-to-br from-[#FF9324] to-[#FCD760] rounded-xl flex items-center justify-center">
+              <div className="w-10 h-10 bg-linear-to-br from-[#FF9324] to-[#FCD760] rounded-xl flex items-center justify-center shrink-0">
                 <LuBrain className="w-6 h-6 text-white" />
               </div>
 
-              <div className="text-2xl font-bold bg-linear-to-r from-amber-500 to-amber-900 bg-clip-text text-transparent">
+              <div className="text-xl sm:text-2xl font-bold bg-linear-to-r from-amber-500 to-amber-900 bg-clip-text text-transparent">
                 Interview Preparation AI
               </div>
             </div>
@@ -79,7 +79,7 @@ const LandingPage = () => {
                   AI-Powered • Personalized • Effective
                 </span>
               </div>
-              <h1 className="text-6xl lg:text-7xl font-bold text-gray-900 mb-8 leading-tight">
+              <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold text-gray-900 mb-8 leading-tight">
                 Ace Your Next
                 <span className="block">
                   <span className="relative">
@@ -141,7 +141,7 @@ const LandingPage = () => {
                   className="relative rounded-2xl shadow-2xl w-full h-auto transform hover:scale-[1.01] transition-transform duration-500"
                 />
 
-                <div className="absolute -bottom-6 -left-6 bg-white p-6 rounded-2xl shadow-xl border border-gray-100">
+                <div className="hidden sm:block absolute -bottom-6 -left-6 bg-white p-6 rounded-2xl shadow-xl border border-gray-100">
                   <div className="flex items-center gap-4">
                     <div className="w-14 h-14 bg-linear-to-br from-green-500  to-emerald-400 rounded-xl flex items-center justify-center">
                       <LuSparkles className="w-7 h-7 text-white" />
@@ -257,24 +257,24 @@ const LandingPage = () => {
         {/* Footer */}
         <div className="container mx-auto px-4 pt-20 pb-12">
           <div className="text-center">
-            <div className="inline-flex items-center gap-3 bg-linear-to-r from-amber-50/80 to-yellow-50/80 px-8 py-4 rounded-2xl border border-amber-100/80 shadow-md mb-8">
-              <div className="w-12 h-12 bg-linear-to-br from-amber-400 to-amber-600 rounded-full flex items-center justify-center animate-pulse">
+            <div className="flex flex-col md:flex-row items-center gap-4 bg-linear-to-r from-amber-50/80 to-yellow-50/80 p-6 md:px-8 md:py-4 rounded-2xl border border-amber-100/80 shadow-md mb-8 max-w-2xl mx-auto">
+              <div className="w-12 h-12 bg-linear-to-br from-amber-400 to-amber-600 rounded-full flex items-center justify-center animate-pulse shrink-0">
                 <LuSparkles className="w-6 h-6 text-white" />
               </div>
 
-              <div className="text-left">
-                <p className="font-bold text-gray-900">
+              <div className="text-center md:text-left">
+                <p className="font-bold text-gray-900 leading-tight">
                   Ready to transform your interview skills?
                 </p>
 
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-gray-600 mt-1">
                   Join thousands of successful candidates
                 </p>
               </div>
 
               <button
                 onClick={handleCTA}
-                className="ml-4 bg-linear-to-r from-amber-600 to-amber-800 text-white font-semibold px-6 py-3 rounded-full hover:shadow-lg hover:shadow-amber-200 transition-all cursor-pointer"
+                className="w-full md:w-auto md:ml-auto bg-linear-to-r from-amber-600 to-amber-800 text-white font-semibold px-6 py-3 rounded-full hover:shadow-lg hover:shadow-amber-200 transition-all cursor-pointer whitespace-nowrap text-center"
               >
                 Start Free Trial
               </button>

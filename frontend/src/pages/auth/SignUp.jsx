@@ -70,7 +70,7 @@ const SignUp = ({ setCurrentPage }) => {
     }
   }
   return (
-    <div className="w-full mx-auto p-6 bg-white rounded-lg">
+    <div className="w-full mx-auto p-0 md:p-6 bg-transparent md:bg-white rounded-none md:rounded-lg">
       <h3 className="text-2xl font-bold text-gray-800 mb-2">
         Create an Account
       </h3>

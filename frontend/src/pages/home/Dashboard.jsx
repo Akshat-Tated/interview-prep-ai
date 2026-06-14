@@ -77,7 +77,7 @@ const Dashboard = () => {
         </div>
 
         <button
-          className="fixed bottom-8 right-8 bg-linear-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-medium py-3 px-6 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 flex items-center gap-2 group"
+          className="fixed bottom-4 right-4 md:bottom-8 md:right-8 bg-linear-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-medium py-3 px-6 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 flex items-center gap-2 group z-20"
           onClick={() => setOpenCreateModal(true)}
         >
           <LuPlus className="w-5 h-5 group-hover:scale-110 transition-transform" />
@@ -104,7 +104,7 @@ const Dashboard = () => {
         }}
         title={"Delete Alert"}
       >
-        <div className="w-[30vw]">
+        <div className="w-full max-w-sm sm:w-[30vw]">
           <DeleteAlertContent
             content="Are you sure you want to delete this session detail?"
             onDelete={() => deleteSession(openDeleteAlert.data)}

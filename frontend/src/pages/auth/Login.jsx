@@ -49,7 +49,7 @@ const Login = ({ setCurrentPage }) => {
     }
   }
   return (
-     <div className="w-full mx-auto p-6 bg-white rounded-lg">
+    <div className="w-full mx-auto p-0 md:p-6 bg-transparent md:bg-white rounded-none md:rounded-lg">
       <h3 className="text-2xl font-bold text-gray-800 mb-2">Welcome Back</h3>
       <p className="text-gray-600 mb-6">Please enter your details to log in</p>
 

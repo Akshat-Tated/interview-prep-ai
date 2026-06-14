@@ -50,7 +50,7 @@ const SummaryCard = ({
                 </div>
 
                 <button
-                  className="p-2 rounded-xl bg-white/40 hover:bg-white/60 backdrop-blur-md text-gray-600 hover:text-red-600 transition-all opacity-0 group-hover:opacity-100 border border-white/50 shadow-sm"
+                  className="p-2 rounded-xl bg-white/40 hover:bg-white/60 backdrop-blur-md text-gray-600 hover:text-red-600 transition-all opacity-100 md:opacity-0 md:group-hover:opacity-100 border border-white/50 shadow-sm"
                   onClick={(e) => {
                     e.stopPropagation()
                     onDelete()
