@@ -5,12 +5,17 @@ const createSession = async (req, res) => {
   try {
     const { role, experience, topicsToFocus, description, questions } = req.body
 
+    const expNum = Number(experience)
+    if (isNaN(expNum) || !Number.isInteger(expNum) || expNum < 0 || expNum > 50) {
+      return res.status(400).json({ success: false, message: "Years of experience must be an integer between 0 and 50." })
+    }
+
     const userId = req.user._id
 
     const session = await Session.create({
       user: userId,
       role,
-      experience,
+      experience: expNum,
       topicsToFocus,
       description,
     })

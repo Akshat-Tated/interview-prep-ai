@@ -16,9 +16,14 @@ const generateInterviewQuestions = async (req, res) => {
       return res.status(400).json({ message: "Missing required fields" })
     }
 
+    const expNum = Number(experience)
+    if (isNaN(expNum) || !Number.isInteger(expNum) || expNum < 0 || expNum > 50) {
+      return res.status(400).json({ message: "Years of experience must be an integer between 0 and 50." })
+    }
+
     const prompt = generateQuestionAnswerPrompt(
       role,
-      experience,
+      expNum,
       topicsToFocus,
       numberOfQuestions,
     )

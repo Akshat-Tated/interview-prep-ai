@@ -1,8 +1,22 @@
 import React, { useState } from "react"
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa"
 
-const Input = ({ value, onChange, label, placeholder, type }) => {
+const Input = ({ value, onChange, label, placeholder, type, ...props }) => {
   const [showPassword, setShowPassword] = useState(false)
+
+  const handleKeyDown = (e) => {
+    if (type === "number") {
+      if (["-", "+", ".", "e", "E"].includes(e.key)) {
+        e.preventDefault()
+      }
+    }
+  }
+
+  const handleWheel = (e) => {
+    if (type === "number") {
+      e.target.blur()
+    }
+  }
 
   return (
     <div className="mb-4">
@@ -17,6 +31,8 @@ const Input = ({ value, onChange, label, placeholder, type }) => {
           className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 text-xl"
           value={value}
           onChange={onChange}
+          onKeyDown={handleKeyDown}
+          onWheel={handleWheel}
           style={
             type === "password" && !showPassword
               ? {
@@ -26,6 +42,7 @@ const Input = ({ value, onChange, label, placeholder, type }) => {
                 }
               : {}
           }
+          {...props}
         />
 
         {type === "password" && (

@@ -34,6 +34,12 @@ const CreateSessionForm = () => {
       return
     }
 
+    const expNum = Number(experience)
+    if (isNaN(expNum) || !Number.isInteger(expNum) || expNum < 0 || expNum > 50) {
+      setError("Years of experience must be between 0 and 50.")
+      return
+    }
+
     setError("")
     setIsLoading(true)
 
@@ -93,8 +99,11 @@ const CreateSessionForm = () => {
           value={formData.experience}
           onChange={({ target }) => handleChange("experience", target.value)}
           label={"Years of Experience"}
-          placeholder={"(e.g., 1 year, 3 years, 5+ years)"}
+          placeholder={"(e.g., 2, 5, 8)"}
           type={"number"}
+          min={0}
+          max={50}
+          step={1}
         />
 
         <Input
